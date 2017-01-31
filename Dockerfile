@@ -1,7 +1,5 @@
 FROM ubuntu:latest
 
-MAINTAINER Rick Golden "golden@golden-garage.net"
-
 # build arguments
 ARG APP_PACKAGES
 ARG APP_LOCALE=en_US
@@ -15,7 +13,6 @@ ENV APP_ROOT=${APP_ROOT:-/app}
 
 # exposed ports and volumes
 EXPOSE $APP_PORT
-VOLUME $APP_ROOT
 
 # add packages for building NPM modules (required by Meteor)
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
@@ -30,6 +27,7 @@ RUN localedef ${APP_LOCALE}.${APP_CHARSET} -i ${APP_LOCALE} -f ${APP_CHARSET}
 # create a non-root user that can write to /usr/local (required by Meteor)
 RUN useradd -mUd ${APP_USER_DIR} ${APP_USER}
 RUN chown -Rh ${APP_USER} /usr/local
+RUN mkdir -p $APP_ROOT/.meteor/local && chown -Rh ${APP_USER} $APP_ROOT
 USER ${APP_USER}
 
 # install Meteor
