@@ -35,4 +35,17 @@ RUN curl https://install.meteor.com/ | sh
 
 # run Meteor from the app directory
 WORKDIR ${APP_ROOT}
+
+# private modules
+ONBUILD ARG NPM_TOKEN
+ONBUILD ENV NODE_ENV="development"
+ONBUILD RUN if [ -n $NPM_TOKEN ]; then echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc; fi
+
+# pre-installed node_modules in sub-image
+ONBUILD COPY package.json .
+ONBUILD RUN meteor npm install
+ONBUILD RUN rm .npmrc
+
+ONBUILD VOLUME ["${APP_ROOT}", "${APP_ROOT}/node_modules", "${APP_ROOT}/.meteor/local"]
+
 ENTRYPOINT [ "/usr/local/bin/meteor" ]
