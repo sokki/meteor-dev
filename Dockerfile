@@ -17,11 +17,12 @@ EXPOSE $APP_PORT
 # add packages for building NPM modules (required by Meteor)
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl python build-essential ${APP_PACKAGES}
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl python build-essential locales ${APP_PACKAGES}
 RUN DEBIAN_FRONTEND=noninteractive apt-get autoremove
 RUN DEBIAN_FRONTEND=noninteractive apt-get clean
 
 # set the locale (required by Meteor)
+RUN locale-gen  ${APP_LOCALE}.${APP_CHARSET}
 RUN localedef ${APP_LOCALE}.${APP_CHARSET} -i ${APP_LOCALE} -f ${APP_CHARSET}
 
 # create a non-root user that can write to /usr/local (required by Meteor)
