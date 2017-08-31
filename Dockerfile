@@ -32,7 +32,8 @@ RUN mkdir -p $APP_ROOT/.meteor/local && chown -Rh ${APP_USER} $APP_ROOT
 USER ${APP_USER}
 
 # install Meteor
-RUN curl https://install.meteor.com/ | sh
+COPY install.meteor.com.sh /tmp/
+RUN /tmp/install.meteor.com.sh
 
 # run Meteor from the app directory
 WORKDIR ${APP_ROOT}
