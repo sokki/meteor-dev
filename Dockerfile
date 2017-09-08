@@ -44,7 +44,7 @@ ONBUILD ENV NODE_ENV="development"
 ONBUILD RUN if [ -n $NPM_TOKEN ]; then echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc; fi
 
 # pre-installed node_modules in sub-image
-ONBUILD COPY package.json package-lock.json .
+ONBUILD COPY package.json package-lock.json $APP_ROOT/
 ONBUILD RUN meteor npm install
 ONBUILD RUN rm .npmrc
 
