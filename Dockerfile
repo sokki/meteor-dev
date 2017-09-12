@@ -17,7 +17,7 @@ EXPOSE $APP_PORT
 # add packages for building NPM modules (required by Meteor)
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl python build-essential locales ${APP_PACKAGES}
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl python build-essential locales git ${APP_PACKAGES}
 RUN DEBIAN_FRONTEND=noninteractive apt-get autoremove
 RUN DEBIAN_FRONTEND=noninteractive apt-get clean
 
@@ -32,8 +32,8 @@ RUN mkdir -p $APP_ROOT/.meteor/local && chown -Rh ${APP_USER} $APP_ROOT
 USER ${APP_USER}
 
 # install Meteor
-COPY install.meteor.com.sh /tmp/
-RUN /tmp/install.meteor.com.sh
+COPY install.meteor.com.sh /usr/local/
+RUN /usr/local/install.meteor.com.sh
 
 # run Meteor from the app directory
 WORKDIR ${APP_ROOT}
@@ -50,4 +50,4 @@ ONBUILD RUN rm .npmrc
 
 ONBUILD VOLUME ["${APP_ROOT}", "${APP_ROOT}/node_modules", "${APP_ROOT}/.meteor/local"]
 
-ENTRYPOINT [ "/usr/local/bin/meteor" ]
+ENTRYPOINT [ "/usr/local/meteor-git/meteor" ]
