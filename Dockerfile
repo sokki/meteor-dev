@@ -48,6 +48,6 @@ ONBUILD COPY package.json package-lock.json $APP_ROOT/
 ONBUILD RUN meteor npm install
 ONBUILD RUN rm .npmrc
 
-ONBUILD VOLUME ["${APP_ROOT}", "${APP_ROOT}/node_modules", "${APP_ROOT}/.meteor/local"]
+ONBUILD VOLUME ["${APP_ROOT}", "${APP_ROOT}/node_modules/", "${APP_ROOT}/.meteor/local/", "${APP_ROOT}/.git/"]
 
 ENTRYPOINT [ "/usr/local/bin/meteor" ]
