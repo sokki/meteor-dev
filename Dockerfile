@@ -17,7 +17,7 @@ EXPOSE $APP_PORT
 # add packages for building NPM modules (required by Meteor)
 RUN DEBIAN_FRONTEND=noninteractive apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl python build-essential locales ${APP_PACKAGES}
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y curl python build-essential locales git ${APP_PACKAGES}
 RUN DEBIAN_FRONTEND=noninteractive apt-get autoremove
 RUN DEBIAN_FRONTEND=noninteractive apt-get clean
 
