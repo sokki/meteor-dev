@@ -32,7 +32,8 @@ RUN mkdir -p $APP_ROOT/.meteor/local && chown -Rh ${APP_USER} $APP_ROOT
 USER ${APP_USER}
 
 # install Meteor
-RUN curl https://install.meteor.com/ | sh
+COPY install.meteor.com.sh /tmp/
+RUN /tmp/install.meteor.com.sh
 
 # run Meteor from the app directory
 WORKDIR ${APP_ROOT}
@@ -43,10 +44,10 @@ ONBUILD ENV NODE_ENV="development"
 ONBUILD RUN if [ -n $NPM_TOKEN ]; then echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc; fi
 
 # pre-installed node_modules in sub-image
-ONBUILD COPY package.json .
+ONBUILD COPY package.json package-lock.json $APP_ROOT/
 ONBUILD RUN meteor npm install
 ONBUILD RUN rm .npmrc
 
-ONBUILD VOLUME ["${APP_ROOT}", "${APP_ROOT}/node_modules", "${APP_ROOT}/.meteor/local"]
+ONBUILD VOLUME ["${APP_ROOT}", "${APP_ROOT}/node_modules/", "${APP_ROOT}/.meteor/local/", "${APP_ROOT}/.git/"]
 
 ENTRYPOINT [ "/usr/local/bin/meteor" ]
