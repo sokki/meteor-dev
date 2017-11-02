@@ -30,7 +30,7 @@ run_it () {
 # ~/.meteor, replacing whatever is already there. (~/.meteor is only a cache of
 # packages and package metadata; no personal persistent data is stored there.)
 
-RELEASE="1.5.2"
+RELEASE="1.6"
 
 
 # Now, on to the actual installer!
@@ -132,7 +132,7 @@ if [ -e "$HOME/.meteor" ]; then
   rm -rf "$HOME/.meteor"
 fi
 
-TARBALL_URL="https://meteorinstall-4168.kxcdn.com/packages-bootstrap/${RELEASE}/meteor-bootstrap-${PLATFORM}.tar.gz"
+TARBALL_URL="https://static-meteor.netdna-ssl.com/packages-bootstrap/${RELEASE}/meteor-bootstrap-${PLATFORM}.tar.gz"
 INSTALL_TMPDIR="$HOME/.meteor-install-tmp"
 TARBALL_FILE="$HOME/.meteor-tarball-tmp"
 
